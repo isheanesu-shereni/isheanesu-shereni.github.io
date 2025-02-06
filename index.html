@@ -5,7 +5,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
     <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
     
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
@@ -14,19 +13,18 @@
         html, body {
             background-color: #ffffff;
         }
-        html, body, #map {
+        html, body, #map, #leaflet-map {
             width: 100%;
             height: 100%;
             padding: 0;
             margin: 0;
+            position: absolute;
         }
         #leaflet-map {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
             z-index: 1; /* Leaflet map on top */
+        }
+        #map {
+            z-index: -1; /* OpenLayers map below Leaflet map */
         }
         #button {
             position: absolute;
@@ -35,7 +33,7 @@
             padding: 10px;
             background: #007bff;
             color: white;
-            z-index: 2; /* Button is on top of maps */
+            z-index: 2; /* Button on top of both maps */
         }
     </style>
 
@@ -49,7 +47,7 @@
     <div id="leaflet-map"></div>
 
     <!-- OpenLayers map container (existing map) -->
-    <div id="map" style="z-index: -1;"></div>
+    <div id="map"></div>
 
     <!-- Include Leaflet and Earth Engine API -->
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
@@ -58,10 +56,17 @@
     <script>
         // Initialize the OpenLayers map (existing map)
         var olMap = new ol.Map({
-            target: 'map',
+            target: 'map', // OpenLayers map in #map div
             layers: [
                 new ol.layer.Tile({
                     source: new ol.source.OSM()
+                }),
+                // Add your other vector layers here
+                new ol.layer.Vector({
+                    source: new ol.source.Vector({
+                        url: 'path-to-your-geojson-file', // Replace with actual source
+                        format: new ol.format.GeoJSON()
+                    })
                 })
             ],
             view: new ol.View({
@@ -70,12 +75,12 @@
             })
         });
 
-        // Initialize the Leaflet map but don't show it until the button is clicked
+        // Initialize the Leaflet map, but only when the button is clicked
         var leafletMap;
 
         // Function to handle the button click and trigger Earth Engine task
         document.getElementById('button').onclick = function() {
-            // Initialize Leaflet map on button click
+            // Initialize Leaflet map on button click if not already initialized
             if (!leafletMap) {
                 leafletMap = L.map('leaflet-map').setView([-17.6, 31.15], 9); // Set Leaflet map to same view as OpenLayers
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(leafletMap);
