@@ -16,18 +16,20 @@
         #dynamicMap {
             width: 100%;
             height: 100%;
+            position: relative;
         }
-        /* Legend styling */
+        /* Legend Styling */
         .legend {
             position: absolute;
-            bottom: 10px;
-            left: 10px;
-            background-color: white;
+            bottom: 20px;
+            left: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
             padding: 10px;
             border-radius: 5px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
             font-family: Arial, sans-serif;
-            font-size: 12px;
+            font-size: 14px;
+            z-index: 1000;
         }
         .legend div {
             display: flex;
@@ -49,11 +51,11 @@
     <!-- Legend -->
     <div class="legend">
         <strong>Rainfall (mm)</strong>
-        <div><div class="legend-color" style="background-color: rgba(255, 0, 0, 0.5);"></div> 0 - 25 mm</div>
-        <div><div class="legend-color" style="background-color: rgba(255, 153, 0, 0.5);"></div> 26 - 50 mm</div>
-        <div><div class="legend-color" style="background-color: rgba(255, 255, 0, 0.5);"></div> 51 - 75 mm</div>
-        <div><div class="legend-color" style="background-color: rgba(0, 204, 255, 0.5);"></div> 76 - 100 mm</div>
-        <div><div class="legend-color" style="background-color: rgba(0, 0, 255, 0.5);"></div> > 100 mm</div>
+        <div><div class="legend-color" style="background-color: rgba(255, 0, 0, 0.8);"></div> 0 - 25 mm</div>
+        <div><div class="legend-color" style="background-color: rgba(255, 153, 0, 0.8);"></div> 26 - 50 mm</div>
+        <div><div class="legend-color" style="background-color: rgba(255, 255, 0, 0.8);"></div> 51 - 75 mm</div>
+        <div><div class="legend-color" style="background-color: rgba(0, 204, 255, 0.8);"></div> 76 - 100 mm</div>
+        <div><div class="legend-color" style="background-color: rgba(0, 0, 255, 0.8);"></div> > 100 mm</div>
     </div>
 
     <!-- Dynamic Map Script -->
@@ -86,4 +88,3 @@
     </script>
 </body>
 </html>
-
