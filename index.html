@@ -6,6 +6,10 @@
     <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="stylesheet" href="./resources/ol.css">
+    <link rel="stylesheet" href="resources/fontawesome-all.min.css">
+    <link rel="stylesheet" href="./resources/ol-layerswitcher.css">
+    <link rel="stylesheet" href="./resources/qgis2web.css">
     <style>
         html, body {
             background-color: #ffffff;
@@ -32,6 +36,28 @@
     <script src="./resources/ol-layerswitcher.js"></script>
 
     <!-- Load existing layers -->
+    <script src="layers/Domboshawaboundary_0.js"></script>
+    <script src="layers/countourlines_1.js"></script>
+    <script src="layers/Buildings_2.js"></script>
+    <script src="layers/Clinic_3.js"></script>
+    <script src="layers/Landmarkplaces_4.js"></script>
+    <script src="layers/Road_5.js"></script>
+    <script src="layers/School_6.js"></script>
+    <script src="layers/Waterway_7.js"></script>
+    <script src="layers/Waterbody_8.js"></script>
+
+    <script src="styles/Domboshawaboundary_0_style.js"></script>
+    <script src="styles/countourlines_1_style.js"></script>
+    <script src="styles/Buildings_2_style.js"></script>
+    <script src="styles/Clinic_3_style.js"></script>
+    <script src="styles/Landmarkplaces_4_style.js"></script>
+    <script src="styles/Road_5_style.js"></script>
+    <script src="styles/School_6_style.js"></script>
+    <script src="styles/Waterway_7_style.js"></script>
+    <script src="styles/Waterbody_8_style.js"></script>
+
+    <script src="./layers/layers.js"></script>
+
     <script>
         // 🌍 Initialize OpenLayers Map
         var map = new ol.Map({
@@ -46,16 +72,17 @@
                         url: "https://earthengine.googleapis.com/v1/projects/remotesensing0924/maps/83646c8d7717afa9fb5a1ea55a92ac8c-e5dae18a634dc23fcddc07dc8d717273/tiles/{z}/{x}/{y}", // Corrected XYZ URL
                         crossOrigin: 'anonymous'
                     }),
-                    opacity: 0.9 // Adjust transparency if needed
+                    opacity: 0.6 // Adjust transparency if needed
                 })
             ],
             view: new ol.View({
                 center: ol.proj.fromLonLat([31.15, -17.6]), // Adjusted to your AOI
-                zoom: 90
+                zoom: 9
             })
         });
     </script>
 
-  
+    <script src="./resources/Autolinker.min.js"></script>
+    <script src="./resources/qgis2web.js"></script>
 </body>
 </html>
