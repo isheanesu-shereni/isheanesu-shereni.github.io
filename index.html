@@ -26,16 +26,16 @@
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 1; /* Ensure Leaflet is on top of OpenLayers */
+            z-index: 1; /* Leaflet map on top */
         }
         #button {
             position: absolute;
-            top: 10px;
-            left: 10px;
+            bottom: 20px;
+            left: 20px;
             padding: 10px;
             background: #007bff;
             color: white;
-            z-index: 2; /* Button is on top */
+            z-index: 2; /* Button is on top of maps */
         }
     </style>
 
@@ -49,7 +49,7 @@
     <div id="leaflet-map"></div>
 
     <!-- OpenLayers map container (existing map) -->
-    <div id="map"></div>
+    <div id="map" style="z-index: -1;"></div>
 
     <!-- Include Leaflet and Earth Engine API -->
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
@@ -65,19 +65,19 @@
                 })
             ],
             view: new ol.View({
-                center: ol.proj.fromLonLat([31.1500, -17.6000]), // Centering on your AOI
+                center: ol.proj.fromLonLat([31.1500, -17.6000]), // Center on your AOI
                 zoom: 9
             })
         });
 
         // Initialize the Leaflet map but don't show it until the button is clicked
         var leafletMap;
-        
+
         // Function to handle the button click and trigger Earth Engine task
         document.getElementById('button').onclick = function() {
             // Initialize Leaflet map on button click
             if (!leafletMap) {
-                leafletMap = L.map('leaflet-map').setView([-17.6, 31.15], 9); // Set Leaflet map to same view
+                leafletMap = L.map('leaflet-map').setView([-17.6, 31.15], 9); // Set Leaflet map to same view as OpenLayers
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(leafletMap);
             }
 
