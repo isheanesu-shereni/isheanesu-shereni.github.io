@@ -1,139 +1,104 @@
 <!doctype html>
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
-    <meta name="mobile-web-app-capable" content="yes">
-    
-    <!-- Leaflet CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    
-    <style>
-        html, body {
-            background-color: #ffffff;
-        }
-        html, body, #map, #leaflet-map {
-            width: 100%;
-            height: 100%;
-            padding: 0;
-            margin: 0;
-            position: absolute;
-        }
-        #leaflet-map {
-            z-index: 1; /* Leaflet map on top */
-        }
-        #map {
-            z-index: -1; /* OpenLayers map below Leaflet map */
-        }
-        #button {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            padding: 10px;
-            background: #007bff;
-            color: white;
-            z-index: 2; /* Button on top of both maps */
-        }
-    </style>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="./resources/ol.css">
+        <link rel="stylesheet" href="resources/fontawesome-all.min.css">
+        <link rel="stylesheet" href="./resources/ol-layerswitcher.css">
+        <link rel="stylesheet" href="./resources/qgis2web.css">
+        
+        <!-- Add Leaflet CSS -->
+        <link rel="stylesheet" href="leaflet.css" />
 
-    <title>Map Integration with Earth Engine Rainfall</title>
-</head>
-<body>
-    <!-- Button to trigger data fetch -->
-    <button id="button">Get Rainfall Data</button>
-
-    <!-- Leaflet map container -->
-    <div id="leaflet-map"></div>
-
-    <!-- OpenLayers map container (existing map) -->
-    <div id="map"></div>
-
-    <!-- Include Leaflet and Earth Engine API -->
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/earthengine-api"></script>
-
-    <script>
-        // Initialize the OpenLayers map (existing map)
-        var olMap = new ol.Map({
-            target: 'map', // OpenLayers map in #map div
-            layers: [
-                new ol.layer.Tile({
-                    source: new ol.source.OSM()
-                }),
-                // Add your other vector layers here
-                new ol.layer.Vector({
-                    source: new ol.source.Vector({
-                        url: 'path-to-your-geojson-file', // Replace with actual source
-                        format: new ol.format.GeoJSON()
-                    })
-                })
-            ],
-            view: new ol.View({
-                center: ol.proj.fromLonLat([31.1500, -17.6000]), // Center on your AOI
-                zoom: 9
-            })
-        });
-
-        // Initialize the Leaflet map, but only when the button is clicked
-        var leafletMap;
-
-        // Function to handle the button click and trigger Earth Engine task
-        document.getElementById('button').onclick = function() {
-            // Initialize Leaflet map on button click if not already initialized
-            if (!leafletMap) {
-                leafletMap = L.map('leaflet-map').setView([-17.6, 31.15], 9); // Set Leaflet map to same view as OpenLayers
-                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(leafletMap);
+        <style>
+            html, body {
+                background-color: #ffffff;
             }
+            .ol-control > * {
+                background-color: #f8f8f8!important;
+                color: #444444!important;
+                border-radius: 0px;
+            }
+            .ol-attribution a, .gcd-gl-input::placeholder, .search-layer-input-search::placeholder {
+                color: #444444!important;
+            }
+            .search-layer-input-search {
+                background-color: #f8f8f8!important;
+            }
+            .ol-control > *:focus, .ol-control >*:hover {
+                background-color: rgba(248, 248, 248, 0.7)!important;
+            } 
+            .ol-control {
+                background-color: rgba(255,255,255,.4) !important;
+                padding: 2px !important;
+            } 
+            html, body, #map {
+                width: 100%;
+                height: 100%;
+                padding: 0;
+                margin: 0;
+            }
+        </style>
 
-            // Trigger the GEE data extraction
-            getRainfallData();
-        };
+        <title>Map Integration</title>
+    </head>
+    <body>
+        <div id="map">
+            <!-- This is where OpenLayers Map is rendered -->
+        </div>
 
-        function getRainfallData() {
-            // Initialize Earth Engine
-            ee.Initialize();
+        <!-- Leaflet map container -->
+        <div id="leaflet-map" style="width: 100%; height: 500px;"></div>
 
-            // Define Area of Interest (AOI)
-            var aoi = ee.Geometry.Polygon([
-                [[31.000000, -17.700000], [31.000000, -17.500000], [31.300000, -17.500000], [31.300000, -17.700000]]
-            ]);
+        <script src="resources/qgis2web_expressions.js"></script>
+        <script src="resources/proj4.js"></script>
+        <script>proj4.defs('EPSG:3857','+proj=merc +a=6378137 +b=6378137 +lat_ts=0 +lon_0=0 +x_0=0 +y_0=0 +k=1 +units=m +nadgrids=@null +wktext +no_defs');</script>
+        <script src="./resources/functions.js"></script>
+        <script src="./resources/ol.js"></script>
+        <script src="./resources/ol-layerswitcher.js"></script>
+        <script src="layers/Domboshawaboundary_0.js"></script>
+        <script src="layers/countourlines_1.js"></script>
+        <script src="layers/Buildings_2.js"></script>
+        <script src="layers/Clinic_3.js"></script>
+        <script src="layers/Landmarkplaces_4.js"></script>
+        <script src="layers/Road_5.js"></script>
+        <script src="layers/School_6.js"></script>
+        <script src="layers/Waterway_7.js"></script>
+        <script src="layers/Waterbody_8.js"></script>
+        <script src="styles/Domboshawaboundary_0_style.js"></script>
+        <script src="styles/countourlines_1_style.js"></script>
+        <script src="styles/Buildings_2_style.js"></script>
+        <script src="styles/Clinic_3_style.js"></script>
+        <script src="styles/Landmarkplaces_4_style.js"></script>
+        <script src="styles/Road_5_style.js"></script>
+        <script src="styles/School_6_style.js"></script>
+        <script src="styles/Waterway_7_style.js"></script>
+        <script src="styles/Waterbody_8_style.js"></script>
+        <script src="./layers/layers.js" type="text/javascript"></script> 
+        <script src="./resources/Autolinker.min.js"></script>
+        <script src="./resources/qgis2web.js"></script>
 
-            // Load CHIRPS dataset & Get the Most Recent Image
-            var dataset = ee.ImageCollection("UCSB-CHG/CHIRPS/DAILY")
-                .filterBounds(aoi)
-                .sort('system:time_start', false)  
-                .limit(1);  
+        <!-- Include Leaflet JS -->
+        <script src="leaflet.js"></script>
 
-            var recentRainfall = dataset.first();
+        <!-- Leaflet map initialization -->
+        <script>
+            // Create a Leaflet map inside the leaflet-map div
+            var leafletMap = L.map('leaflet-map').setView([51.505, -0.09], 13);
 
-            // Interpolate using Focal Mean (Smooth the Raster)
-            var interpolated = recentRainfall.focalMean(10000, 'circle', 'meters');
+            // Add OpenStreetMap tile layer
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(leafletMap);
 
-            // Classify into 5 Rainfall Categories
-            var classified = interpolated.multiply(100).int()
-                .where(interpolated.lt(25), 1)  
-                .where(interpolated.gte(25).and(interpolated.lt(50)), 2)  
-                .where(interpolated.gte(50).and(interpolated.lt(75)), 3)  
-                .where(interpolated.gte(75).and(interpolated.lt(100)), 4) 
-                .where(interpolated.gte(100), 5)  
-                .selfMask(); // Keeps transparency (removes NoData)
-
-            // Define the correct color palette for the classified data
-            var rainfallPalette = ['#ff0000', '#ff9900', '#ffff00', '#00ccff', '#0000ff'];
-
-            // Convert Earth Engine Image to a URL for Leaflet
-            var rainfallLayerUrl = classified.getMap({
-                min: 1,
-                max: 5,
-                palette: rainfallPalette,
-                opacity: 0.5
-            }).urlFormat;
-
-            // Add the rainfall data to the Leaflet map as an image overlay
-            var bounds = [[-17.7, 31.0], [-17.5, 31.3]]; // Define the bounds of the AOI
-            var rainfallOverlay = L.imageOverlay(rainfallLayerUrl, bounds).addTo(leafletMap);
-        }
-    </script>
-</body>
+            // Add a marker to the Leaflet map
+            L.marker([51.5, -0.09]).addTo(leafletMap)
+                .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
+                .openPopup();
+        </script>
+    </body>
 </html>
