@@ -29,6 +29,11 @@
         var dynamicMap = new ol.Map({
             target: 'dynamicMap',
             layers: [
+                // OpenStreetMap Base Layer
+                new ol.layer.Tile({
+                    source: new ol.source.OSM()
+                }),
+                // CHIRPS Dynamic Rainfall Layer
                 new ol.layer.Tile({
                     source: new ol.source.XYZ({
                         url: "https://earthengine.googleapis.com/v1/projects/remotesensing0924/maps/83646c8d7717afa9fb5a1ea55a92ac8c-e5dae18a634dc23fcddc07dc8d717273/tiles/{z}/{x}/{y}",
