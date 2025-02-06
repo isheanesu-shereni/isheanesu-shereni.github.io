@@ -64,7 +64,7 @@
         // 🌍 Initialize OpenLayers Map
         var map = new ol.layer.Tile({
                     source: new ol.source.TileWMS({
-                        url: "YOUR_WMS_URL_HERE", // Replace with your GEE WMS URL
+                        url: "https://earthengine.googleapis.com/v1/projects/remotesensing0924/maps/83646c8d7717afa9fb5a1ea55a92ac8c-e5dae18a634dc23fcddc07dc8d717273/tiles/%7Bz%7D/%7Bx%7D/%7By%7D", // Replace with your GEE WMS URL
                         params: {
                             'LAYERS': 'rainfall_layer', // Change based on your dataset
                             'FORMAT': 'image/png',
