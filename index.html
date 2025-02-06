@@ -1,3 +1,4 @@
+Rain map separate
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,40 +18,12 @@
             width: 100%;
             height: 100%;
         }
-        .legend {
-            position: absolute;
-            bottom: 10px;
-            left: 10px;
-            background-color: white;
-            padding: 10px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-        }
-        .legend div {
-            display: flex;
-            align-items: center;
-            margin-bottom: 5px;
-        }
-        .legend-color {
-            width: 30px;
-            height: 15px;
-            margin-right: 10px;
-        }
     </style>
     <title>Dynamic Map</title>
 </head>
 <body>
     <div id="dynamicMap"></div>
-
-    <!-- Legend -->
-    <div class="legend">
-        <div><div class="legend-color" style="background-color: rgba(255, 0, 0, 0.2);"></div> 0-25 mm</div>
-        <div><div class="legend-color" style="background-color: rgba(255, 153, 0, 0.2);"></div> 26-50 mm</div>
-        <div><div class="legend-color" style="background-color: rgba(255, 255, 0, 0.2);"></div> 51-75 mm</div>
-        <div><div class="legend-color" style="background-color: rgba(0, 204, 255, 0.2);"></div> 76-100 mm</div>
-        <div><div class="legend-color" style="background-color: rgba(0, 0, 255, 0.2);"></div> >100 mm</div>
-    </div>
-
+    
     <!-- Dynamic Map Script -->
     <script src="./resources/ol.js"></script>
     <script>
@@ -64,18 +37,13 @@
                         attributions: 'Map data &copy; <a href="https://www.google.com/permissions/geoguidelines/">Google</a>'
                     })
                 }),
-                // CHIRPS Dynamic Rainfall Layer (WMS)
+                // CHIRPS Dynamic Rainfall Layer
                 new ol.layer.Tile({
-                    source: new ol.source.TileWMS({
-                        url: "https://earthengine.googleapis.com/v1/projects/remotesensing0924/maps/6b83602ee30948045e014e78e40bbc9a-0a2de980299f2d19b7fa530ccfe7a1cd/tiles/{z}/{x}/{y}",
-                        crossOrigin: 'anonymous',
-                        params: {
-                            'LAYERS': 'your_correct_layer_name', // Replace with your actual layer name
-                            'FORMAT': 'image/png',
-                            'TRANSPARENT': true
-                        }
+                    source: new ol.source.XYZ({
+                        url: "https://earthengine.googleapis.com/v1/projects/remotesensing0924/maps/83646c8d7717afa9fb5a1ea55a92ac8c-e5dae18a634dc23fcddc07dc8d717273/tiles/{z}/{x}/{y}",
+                        crossOrigin: 'anonymous'
                     }),
-                    opacity: 0.3 // Make the rainfall overlay slightly transparent
+                    opacity: 0.3
                 })
             ],
             view: new ol.View({
@@ -86,3 +54,4 @@
     </script>
 </body>
 </html>
+
