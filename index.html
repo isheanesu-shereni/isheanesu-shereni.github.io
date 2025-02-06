@@ -44,11 +44,11 @@
 
     <!-- Legend -->
     <div class="legend">
-        <div><div class="legend-color" style="background-color: #FFFF99;"></div> 0-25 mm</div>
-        <div><div class="legend-color" style="background-color: #99FF99;"></div> 26-50 mm</div>
-        <div><div class="legend-color" style="background-color: #99CCFF;"></div> 51-75 mm</div>
-        <div><div class="legend-color" style="background-color: #CC99FF;"></div> 76-100 mm</div>
-        <div><div class="legend-color" style="background-color: #9900CC;"></div> >100 mm</div>
+        <div><div class="legend-color" style="background-color: rgba(255, 255, 153, 0.5);"></div> 0-25 mm</div>
+        <div><div class="legend-color" style="background-color: rgba(153, 255, 153, 0.5);"></div> 26-50 mm</div>
+        <div><div class="legend-color" style="background-color: rgba(153, 204, 255, 0.5);"></div> 51-75 mm</div>
+        <div><div class="legend-color" style="background-color: rgba(204, 153, 255, 0.5);"></div> 76-100 mm</div>
+        <div><div class="legend-color" style="background-color: rgba(153, 0, 204, 0.5);"></div> >100 mm</div>
     </div>
 
     <!-- Dynamic Map Script -->
@@ -70,7 +70,7 @@
                         url: "https://earthengine.googleapis.com/v1/projects/remotesensing0924/maps/83646c8d7717afa9fb5a1ea55a92ac8c-e5dae18a634dc23fcddc07dc8d717273/tiles/{z}/{x}/{y}",
                         crossOrigin: 'anonymous'
                     }),
-                    opacity: 0.6
+                    opacity: 0.6 // Make the rainfall overlay slightly transparent
                 })
             ],
             view: new ol.View({
