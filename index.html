@@ -4,12 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
     <link rel="stylesheet" href="./resources/ol.css">
-    <link rel="stylesheet" href="resources/fontawesome-all.min.css">
-    <link rel="stylesheet" href="./resources/ol-layerswitcher.css">
-    <link rel="stylesheet" href="./resources/qgis2web.css">
     <style>
         html, body {
             background-color: #ffffff;
@@ -18,61 +13,28 @@
             padding: 0;
             margin: 0;
         }
-        .ol-control {
-            background-color: rgba(255,255,255,.4) !important;
-            padding: 2px !important;
-        } 
+        #dynamicMap {
+            width: 100%;
+            height: 100%;
+        }
     </style>
-    <title>Rainfall Map</title>
+    <title>Dynamic Map</title>
 </head>
 <body>
-    <div id="map" style="width: 100%; height: 100%;"></div>
-
-    <script src="resources/qgis2web_expressions.js"></script>
-    <script src="resources/proj4.js"></script>
-    <script>proj4.defs('EPSG:3857','+proj=merc +a=6378137 +b=6378137 +lat_ts=0 +lon_0=0 +x_0=0 +y_0=0 +k=1 +units=m +nadgrids=@null +wktext +no_defs');</script>
-    <script src="./resources/functions.js"></script>
+    <div id="dynamicMap"></div>
+    
+    <!-- Dynamic Map Script -->
     <script src="./resources/ol.js"></script>
-    <script src="./resources/ol-layerswitcher.js"></script>
-
-    <!-- Load existing layers -->
-    <script src="layers/Domboshawaboundary_0.js"></script>
-    <script src="layers/countourlines_1.js"></script>
-    <script src="layers/Buildings_2.js"></script>
-    <script src="layers/Clinic_3.js"></script>
-    <script src="layers/Landmarkplaces_4.js"></script>
-    <script src="layers/Road_5.js"></script>
-    <script src="layers/School_6.js"></script>
-    <script src="layers/Waterway_7.js"></script>
-    <script src="layers/Waterbody_8.js"></script>
-
-    <script src="styles/Domboshawaboundary_0_style.js"></script>
-    <script src="styles/countourlines_1_style.js"></script>
-    <script src="styles/Buildings_2_style.js"></script>
-    <script src="styles/Clinic_3_style.js"></script>
-    <script src="styles/Landmarkplaces_4_style.js"></script>
-    <script src="styles/Road_5_style.js"></script>
-    <script src="styles/School_6_style.js"></script>
-    <script src="styles/Waterway_7_style.js"></script>
-    <script src="styles/Waterbody_8_style.js"></script>
-
-    <script src="./layers/layers.js"></script>
-
     <script>
-        // 🌍 Initialize OpenLayers Map
-        var map = new ol.Map({
-            target: 'map',
+        var dynamicMap = new ol.Map({
+            target: 'dynamicMap',
             layers: [
                 new ol.layer.Tile({
-                    source: new ol.source.OSM() // Base map
-                }),
-                // 🌧 Add Rainfall Layer from Google Earth Engine (GEE)
-                new ol.layer.Tile({
                     source: new ol.source.XYZ({
-                        url: "https://earthengine.googleapis.com/v1/projects/remotesensing0924/maps/83646c8d7717afa9fb5a1ea55a92ac8c-e5dae18a634dc23fcddc07dc8d717273/tiles/{z}/{x}/{y}", // Corrected XYZ URL
+                        url: "https://earthengine.googleapis.com/v1/projects/remotesensing0924/maps/83646c8d7717afa9fb5a1ea55a92ac8c-e5dae18a634dc23fcddc07dc8d717273/tiles/{z}/{x}/{y}",
                         crossOrigin: 'anonymous'
                     }),
-                    opacity: 0.6 // Adjust transparency if needed
+                    opacity: 0.6
                 })
             ],
             view: new ol.View({
@@ -81,8 +43,5 @@
             })
         });
     </script>
-
-    <script src="./resources/Autolinker.min.js"></script>
-    <script src="./resources/qgis2web.js"></script>
 </body>
 </html>
