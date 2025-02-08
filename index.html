@@ -13,39 +13,44 @@
             height: 100%;
             overflow: hidden;
         }
-        #map {
+        #dynamicMap {
             width: 100%;
             height: 100%;
         }
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/ol@latest/dist/ol.js"></script>
+    <script src="https://unpkg.com/ol@6.6.1/dist/ol.js"></script>
 </head>
 <body>
-    <div id="map"></div>
+    <div id="dynamicMap"></div>
     <script>
-        // Initialize OpenLayers map
-        var map = new ol.Map({
-            target: 'map', // The target HTML element
+        var dynamicMap = new ol.Map({
+            target: 'dynamicMap',
             layers: [
-                // Google Maps base layer (optional)
+                // Google Maps Base Layer
                 new ol.layer.Tile({
                     source: new ol.source.XYZ({
                         url: "https://mt0.google.com/vt/lyrs=m&x={x}&y={y}&z={z}",
                         attributions: 'Map data &copy; <a href="https://www.google.com/permissions/geoguidelines/">Google</a>'
                     })
                 }),
-                // GEE Rainfall Classification Tile Layer
+                // CHIRPS Dynamic Rainfall Layer
                 new ol.layer.Tile({
                     source: new ol.source.XYZ({
-                        url: "https://earthengine.googleapis.com/v1/projects/remotesensing0924/maps/e82e4595e8c3c289d6cea5ddaafa8f87-415d952b997f1989e48602372ee31735/maps/tiles/{z}/{x}/{y}",
-                        crossOrigin: 'anonymous'
+                        url: "https://earthengine.googleapis.com/v1/projects/remotesensing0924/maps/e82e4595e8c3c289d6cea5ddaafa8f87-415d952b997f1989e48602372ee31735/maps//tiles/{z}/{x}/{y}",
+                        crossOrigin: 'anonymous',
+                        tileLoadFunction: function(imageTile, src) {
+                            // Add logging to check the URLs for tiles
+                            console.log('Tile URL:', src);
+                            imageTile.getImage().src = src; // Set the tile image source
+                        }
                     }),
-                    opacity: 0.6 // Adjust opacity for transparency
+                    opacity: 0.5 // Adjust opacity for transparency
                 })
             ],
             view: new ol.View({
-                center: ol.proj.fromLonLat([31.15, -17.6]), // Coordinates for center of map
-                zoom: 8 // Zoom level
+                center: ol.proj.fromLonLat([31.15, -17.6]), // Adjusted to your AOI
+                zoom: 8,  // Default zoom level
+                maxZoom: 12  // Set a maximum zoom level
             })
         });
     </script>
