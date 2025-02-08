@@ -27,13 +27,6 @@
         var map = new ol.Map({
             target: 'map', // The target HTML element
             layers: [
-                // Google Maps base layer (optional)
-                new ol.layer.Tile({
-                    source: new ol.source.XYZ({
-                        url: "https://mt0.google.com/vt/lyrs=m&x={x}&y={y}&z={z}",
-                        attributions: 'Map data &copy; <a href="https://www.google.com/permissions/geoguidelines/">Google</a>'
-                    })
-                }),
                 // GEE Rainfall Classification Tile Layer
                 new ol.layer.Tile({
                     source: new ol.source.XYZ({
