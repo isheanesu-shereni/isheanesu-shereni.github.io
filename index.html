@@ -37,7 +37,12 @@
                 new ol.layer.Tile({
                     source: new ol.source.XYZ({
                         url: "https://earthengine.googleapis.com/v1/projects/remotesensing0924/maps/e82e4595e8c3c289d6cea5ddaafa8f87-415d952b997f1989e48602372ee31735/maps//tiles/{z}/{x}/{y}",
-                        crossOrigin: 'anonymous'
+                        crossOrigin: 'anonymous',
+                        tileLoadFunction: function(imageTile, src) {
+                            // Add logging to check the URLs for tiles
+                            console.log('Tile URL:', src);
+                            imageTile.getImage().src = src; // Set the tile image source
+                        }
                     }),
                     opacity: 0.5 // Adjust opacity for transparency
                 })
