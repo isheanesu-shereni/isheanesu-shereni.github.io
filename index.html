@@ -3,56 +3,71 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Rainfall Data Map</title>
+    <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+    <link rel="stylesheet" href="./resources/ol.css">
     <style>
         html, body {
-            margin: 0;
-            padding: 0;
+            background-color: #ffffff;
             width: 100%;
             height: 100%;
-            overflow: hidden;
+            padding: 0;
+            margin: 0;
         }
         #dynamicMap {
             width: 100%;
             height: 100%;
+            position: relative;
+        }
+        /* Legend Styling */
+        .legend {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            z-index: 1000;
+        }
+        .legend div {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        .legend-color {
+            width: 30px;
+            height: 15px;
+            margin-right: 10px;
+            border: 1px solid #000;
+        }
+        /* Iframe Styling */
+        .gee-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            position: absolute;
+            top: 0;
+            left: 0;
         }
     </style>
-    <script src="https://unpkg.com/ol@6.6.1/dist/ol.js"></script>
+    <title>Rainfall Data Map</title>
 </head>
 <body>
-    <div id="dynamicMap"></div>
-    <script>
-        var dynamicMap = new ol.Map({
-            target: 'dynamicMap',
-            layers: [
-                // Google Maps Base Layer
-                new ol.layer.Tile({
-                    source: new ol.source.XYZ({
-                        url: "https://mt0.google.com/vt/lyrs=m&x={x}&y={y}&z={z}",
-                        attributions: 'Map data &copy; <a href="https://www.google.com/permissions/geoguidelines/">Google</a>'
-                    })
-                }),
-                // CHIRPS Dynamic Rainfall Layer
-                new ol.layer.Tile({
-                    source: new ol.source.XYZ({
-                        url: "https://earthengine.googleapis.com/v1/projects/remotesensing0924/maps/e82e4595e8c3c289d6cea5ddaafa8f87-415d952b997f1989e48602372ee31735/maps//tiles/{z}/{x}/{y}",
-                        crossOrigin: 'anonymous',
-                        tileLoadFunction: function(imageTile, src) {
-                            // Add logging to check the URLs for tiles
-                            console.log('Tile URL:', src);
-                            imageTile.getImage().src = src; // Set the tile image source
-                        }
-                    }),
-                    opacity: 0.5 // Adjust opacity for transparency
-                })
-            ],
-            view: new ol.View({
-                center: ol.proj.fromLonLat([31.15, -17.6]), // Adjusted to your AOI
-                zoom: 8,  // Default zoom level
-                maxZoom: 12  // Set a maximum zoom level
-            })
-        });
-    </script>
+
+    <!-- Embed Google Earth Engine App -->
+    <iframe class="gee-iframe" src="https://remotesensing0924.projects.earthengine.app/view/rain"></iframe>
+
+    <!-- Legend -->
+    <div class="legend">
+        <strong>Rainfall (mm)</strong>
+        <div><div class="legend-color" style="background-color: rgba(255, 0, 0, 0.8);"></div> 0 - 25 mm</div>
+        <div><div class="legend-color" style="background-color: rgba(255, 153, 0, 0.8);"></div> 26 - 50 mm</div>
+        <div><div class="legend-color" style="background-color: rgba(255, 255, 0, 0.8);"></div> 51 - 75 mm</div>
+        <div><div class="legend-color" style="background-color: rgba(0, 204, 255, 0.8);"></div> 76 - 100 mm</div>
+        <div><div class="legend-color" style="background-color: rgba(0, 0, 255, 0.8);"></div> > 100 mm</div>
+    </div>
+
 </body>
 </html>
