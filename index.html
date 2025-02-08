@@ -46,9 +46,19 @@
             view: new ol.View({
                 center: ol.proj.fromLonLat([31.15, -17.6]), // Coordinates for center of map
                 zoom: 8, // Initial zoom level
-                minZoom: 6, // Set a minimum zoom level
-                maxZoom: 10  // Set a maximum zoom level
+                minZoom: 7, // Set a minimum zoom level to avoid excessive zoom out
+                maxZoom: 10  // Set a maximum zoom level to prevent zooming too far in
             })
+        });
+
+        // Ensure zoom restrictions work
+        map.on('moveend', function() {
+            var currentZoom = map.getView().getZoom();
+            if (currentZoom < 7) {
+                map.getView().setZoom(7);  // Enforce minimum zoom
+            } else if (currentZoom > 10) {
+                map.getView().setZoom(10);  // Enforce maximum zoom
+            }
         });
     </script>
 </body>
