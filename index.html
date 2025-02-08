@@ -3,32 +3,51 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
-    <link rel="stylesheet" href="./resources/ol.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Rainfall Data Map</title>
     <style>
         html, body {
-            background-color: #ffffff;
-            width: 100%;
-            height: 100%;
-            padding: 0;
             margin: 0;
-        }
-        /* Iframe Styling */
-        .gee-iframe {
+            padding: 0;
             width: 100%;
             height: 100%;
-            border: none;
-            position: absolute;
-            top: 0;
-            left: 0;
+            overflow: hidden;
+        }
+        #map {
+            width: 100%;
+            height: 100%;
         }
     </style>
-    <title>Rainfall Data Map</title>
+    <script src="https://cdn.jsdelivr.net/npm/ol@latest/dist/ol.js"></script>
 </head>
 <body>
-
-    <!-- Embed Google Earth Engine App -->
-    <iframe class="gee-iframe" src="https://remotesensing0924.projects.earthengine.app/view/rain"></iframe>
-
+    <div id="map"></div>
+    <script>
+        // Initialize OpenLayers map
+        var map = new ol.Map({
+            target: 'map', // The target HTML element
+            layers: [
+                // Google Maps base layer (optional)
+                new ol.layer.Tile({
+                    source: new ol.source.XYZ({
+                        url: "https://mt0.google.com/vt/lyrs=m&x={x}&y={y}&z={z}",
+                        attributions: 'Map data &copy; <a href="https://www.google.com/permissions/geoguidelines/">Google</a>'
+                    })
+                }),
+                // GEE Rainfall Classification Tile Layer
+                new ol.layer.Tile({
+                    source: new ol.source.XYZ({
+                        url: "https://earthengine.googleapis.com/v1/projects/remotesensing0924/maps/e82e4595e8c3c289d6cea5ddaafa8f87-415d952b997f1989e48602372ee31735/maps/tiles/{z}/{x}/{y}",
+                        crossOrigin: 'anonymous'
+                    }),
+                    opacity: 0.6 // Adjust opacity for transparency
+                })
+            ],
+            view: new ol.View({
+                center: ol.proj.fromLonLat([31.15, -17.6]), // Coordinates for center of map
+                zoom: 8 // Zoom level
+            })
+        });
+    </script>
 </body>
 </html>
